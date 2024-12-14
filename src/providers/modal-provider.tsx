@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 import { PricesList, TicketDetails } from '@/lib/types'
 import { Agency, Contact, Plan, User } from '@prisma/client'
@@ -27,7 +28,7 @@ type ModalContextType = {
 export const ModalContext = createContext<ModalContextType>({
   data: {},
   isOpen: false,
-  setOpen: (modal: React.ReactNode, fetchData?: () => Promise<any>) => {},
+  setOpen: () => {},
   setClose: () => {},
 })
 

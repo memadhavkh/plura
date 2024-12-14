@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 'use client'
 import CreateLaneForm from '@/components/forms/lane-form'
-
 import {
   AlertDialog,
   AlertDialogAction,
@@ -29,10 +29,10 @@ import { Draggable, Droppable } from 'react-beautiful-dnd'
 import { Edit, MoreVertical, PlusCircleIcon, Trash } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import React, { Dispatch, SetStateAction, useMemo } from 'react'
-// import PipelineTicket from './pipeline-ticket'
+import PipelineTicket from './pipeline-ticket'
 import CustomModal from '@/components/global/custom-modal'
 import TicketForm from '@/components/forms/ticket-form'
-import PipelineTicket from './pipeline-ticket'
+import { Ticket } from '@prisma/client'
 
 interface PipelaneLaneProps {
   setAllTickets: Dispatch<SetStateAction<TicketWithTags>>
@@ -58,13 +58,13 @@ const PipelineLane: React.FC<PipelaneLaneProps> = ({
 
   const amt = new Intl.NumberFormat(undefined, {
     style: 'currency',
-    currency: 'USD',
+    currency: 'INR',
   })
 
   const laneAmt = useMemo(() => {
     console.log(tickets)
     return tickets.reduce(
-      (sum, ticket) => sum + (Number(ticket?.value) || 0),
+      (sum: number, ticket: Ticket) => sum + (Number(ticket?.value) || 0),
       0
     )
   }, [tickets])
@@ -126,7 +126,6 @@ const PipelineLane: React.FC<PipelaneLaneProps> = ({
     >
       {(provided, snapshot) => {
         if (snapshot.isDragging) {
-          //@ts-ignore
           const offset = { x: 300, y: 0 }
           //@ts-ignore
           const x = provided.draggableProps.style?.left - offset.x
@@ -186,7 +185,7 @@ const PipelineLane: React.FC<PipelaneLaneProps> = ({
                           ref={provided.innerRef}
                           className="mt-2"
                         >
-                          {tickets.map((ticket, index) => (
+                          {tickets.map((ticket: Ticket, index: number) => (
                             <PipelineTicket
                               allTickets={allTickets}
                               setAllTickets={setAllTickets}

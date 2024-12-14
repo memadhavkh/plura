@@ -18,7 +18,7 @@ import { useModal } from '@/providers/modal-provider'
 import { Pipeline } from '@prisma/client'
 import { Check, ChevronsUpDown, Plus } from 'lucide-react'
 import Link from 'next/link'
-import React from 'react'
+import { useState } from 'react'
 
 type Props = {
   subAccountId: string
@@ -28,8 +28,8 @@ type Props = {
 
 const PipelineInfoBar = ({ pipelineId, pipelines, subAccountId }: Props) => {
   const { setOpen: setOpenModal } = useModal()
-  const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState(pipelineId)
+  const [open, setOpen] = useState(false)
+  const [value, setValue] = useState(pipelineId)
 
   const handleClickCreatePipeline = () => {
     setOpenModal(

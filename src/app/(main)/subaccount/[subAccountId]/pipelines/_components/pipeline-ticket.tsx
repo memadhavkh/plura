@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import TicketForm from '@/components/forms/ticket-form'
 import CustomModal from '@/components/global/custom-modal'
 import TagComponent from '@/components/global/tag'
@@ -38,6 +39,7 @@ import { useToast } from '@/hooks/use-toast'
 import { deleteTicket, saveActivityLogsNotifications } from '@/lib/queries'
 import { TicketWithTags } from '@/lib/types'
 import { useModal } from '@/providers/modal-provider'
+import { Tag, Ticket } from '@prisma/client'
 import { Contact2, Edit, MoreHorizontalIcon, Trash, User2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { Dispatch, SetStateAction } from 'react'
@@ -59,12 +61,12 @@ const PipelineTicket = ({
   ticket,
 }: Props) => {
   const router = useRouter()
-  const { setOpen, data } = useModal();
+  const { setOpen } = useModal();
   const { toast } = useToast();
 
   const editNewTicket = (ticket: TicketWithTags[0]) => {
-    setAllTickets((tickets) =>
-      allTickets.map((t) => {
+    setAllTickets(() =>
+      allTickets.map((t: Ticket) => {
         if (t.id === ticket.id) {
           return ticket
         }
@@ -93,7 +95,7 @@ const PipelineTicket = ({
 
   const handleDeleteTicket = async () => {
     try {
-      setAllTickets((tickets) => tickets.filter((t) => t.id !== ticket.id))
+      setAllTickets((tickets: Ticket[]) => tickets.filter((t) => t.id !== ticket.id))
       const response = await deleteTicket(ticket.id)
       toast({
         title: 'Deleted',
@@ -155,7 +157,7 @@ const PipelineTicket = ({
                       {new Date().toLocaleDateString()}
                     </span>
                     <div className="flex items-center flex-wrap gap-2">
-                      {ticket.Tags.map((tag) => (
+                      {ticket.Tags.map((tag: Tag) => (
                         <TagComponent
                           key={tag.id}
                           title={tag.name}
@@ -204,7 +206,7 @@ const PipelineTicket = ({
                     </HoverCard>
                   </CardHeader>
                   <CardFooter className="m-0 p-2 border-t-[1px] border-muted-foreground/20 flex items-center justify-between">
-                    <div className="flex item-center gap-2">
+                    <div className="flex items-center gap-2">
                       <Avatar className="w-8 h-8">
                         <AvatarImage
                           alt="contact"
@@ -232,7 +234,7 @@ const PipelineTicket = ({
                       {!!ticket.value &&
                         new Intl.NumberFormat(undefined, {
                           style: 'currency',
-                          currency: 'USD',
+                          currency: 'INR',
                         }).format(+ticket.value)}
                     </span>
                   </CardFooter>
